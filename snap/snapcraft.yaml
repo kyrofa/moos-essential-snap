@@ -1,0 +1,45 @@
+name: moos-essential
+version: '10.0.1'
+summary: Useful MOOS applications
+description: |
+  A set of useful applications that leverage the core-moos communications
+  layer.
+
+grade: stable
+confinement: strict
+
+apps:
+  pAntler:
+    command: pAntler
+    plugs: [network, network-bind]
+
+  pLogger:
+    command: pLogger
+    plugs: [network, network-bind]
+
+  pMOOSBridge:
+    command: pMOOSBridge
+    plugs: [network, network-bind]
+
+  pScheduler:
+    command: pScheduler
+    plugs: [network, network-bind]
+
+  pShare:
+    command: pShare
+    plugs: [network, network-bind]
+
+parts:
+  core-moos:
+    plugin: cmake
+    source: https://github.com/themoos/core-moos/archive/10.0.2.a-release.tar.gz
+    configflags:
+      - -DCMAKE_INSTALL_PREFIX=/
+    build-packages: [gcc, g++]
+    prime: [-*]
+
+  essential-moos:
+    plugin: cmake
+    source: https://github.com/themoos/essential-moos/archive/10.0.1-release.tar.gz
+    build-packages: [gcc, g++]
+    after: [core-moos]
